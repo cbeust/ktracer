@@ -1,6 +1,6 @@
 package com.beust.ktracer
 
-data class Vector3(val start: Point, val end: Point) {
+open class Vector3(val start: Point, val end: Point) {
 
     constructor(point: Point) : this(Point.ORIGIN, point) {}
 
@@ -29,18 +29,12 @@ data class Vector3(val start: Point, val end: Point) {
         return Point(p.x * n, p.y * n, p.z * n)
     }
 
-    fun reverse(): Vector3 {
-        return Vector3(end, start)
-    }
+    fun reverse() = Vector3(end, start)
 
-    fun subtract(other: Vector3): Vector3 {
-        return add(other.reverse())
-    }
+    fun subtract(other: Vector3) = add(other.reverse())
 
-    fun toOrigin(): Point {
-        return Point(end.x - start.x, end.y - start.y,
+    fun toOrigin() = Point(end.x - start.x, end.y - start.y,
                 end.z - start.z)
-    }
 
     fun dot(v2: Vector3): Double {
         val (x, y, z) = toOrigin()
