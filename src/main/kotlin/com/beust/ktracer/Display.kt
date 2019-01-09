@@ -1,7 +1,7 @@
 package com.beust.ktracer
 
 
-class Display(val width: Int, val height: Int) {
+class Display(val width: Int, val height: Int, val backgroundColor: Int) {
 
     fun allPoints(): List<Point> {
         val result = arrayListOf<Point>()

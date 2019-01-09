@@ -3,12 +3,8 @@ package com.beust.ktracer
 data class Sphere(override val name: String, val center: Point, val radius: Double) : SceneObject(name) {
 
     override fun intersects(p0: Point, p1: Point): IntersectInfo {
-        return intersects0(p0, p1)
-    }
-
-    fun intersects0(p0: Point, p1: Point): IntersectInfo {
         val result = IntersectInfo()
-        result.`object` = this
+        result.obj = this
         //        Vector3 d = new Vector3(new Point(0,0,1));
         val d = Vector3(p1.subtract(p0)).normalize()
         val o = Vector3(p0)
@@ -34,9 +30,6 @@ data class Sphere(override val name: String, val center: Point, val radius: Doub
             val p = p0.add(Point(d.end.x * result.distance,
                     d.end.y * result.distance,
                     d.end.z * result.distance))
-            if (p1.y == 100.0 && (p1.x == 150.0 || p1.x == 250.0)) {
-                println("DELETE ME point for " + p1.x + ": " + p)
-            }
             result.points.add(p)
         }
 
@@ -64,13 +57,10 @@ data class Sphere(override val name: String, val center: Point, val radius: Doub
             shade = 0.0
         }
 
-
-        //        if (p.getY() == 100 && (x == 147 || x == 253)) {
-        //            double shade2 = M.dot(lightVector, normalVector);
-        //            System.out.println(p + " shade:" + shade2);
-        //        }
         val objectColor = 255.0
-        val c = java.lang.Math.round(objectColor * (Main.AMBIENT_COEFFICIENT + Main.DIFFUSE_COEFFICIENT * shade)).toInt()
+        val c = java.lang.Math.round(objectColor
+                * (Constants.AMBIENT_COEFFICIENT + Constants.DIFFUSE_COEFFICIENT * shade))
+            .toInt()
         val result = IntersectInfo()
         result.color = -0x1000000 or
                 (c shl 16) or

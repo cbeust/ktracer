@@ -9,26 +9,7 @@ data class Plane @JvmOverloads constructor(override val name: String, private va
         private val color: Int = -0x7fffff01) : SceneObject(name) {
     private val normal: Vector3 = passedNormal.normalize()
 
-    override fun intersects(p0: Point, p1: Point): IntersectInfo {
-        return intersects3(p0, p1)
-    }
-
-    //    public IntersectInfo intersects0(Point p0, Point p1) {
-    //        double a = normal.getEnd().getX();
-    //        double b = normal.getEnd().getY();
-    //        double c = normal.getEnd().getZ();
-    //        double x0 = p0.getX();
-    //        double y0 = p0.getY();
-    //        double z0 = p0.getZ();
-    //        double x1 = p1.getX();
-    //        double y1 = p1.getY();
-    //        double z1 = p1.getZ();
-    //        double d = a * (x1 - x0) + b * (y1 - y0) + c * (z1 - z0) / Math.sqrt(a * a + b
-    //                * b + c * c);
-    //        return null;
-    //     }
-
-    fun intersects3(a: Point, b: Point): IntersectInfo {
+    override fun intersects(a: Point, b: Point): IntersectInfo {
         // http://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection
         // d = ((p0 - l0) dot normal) / (l dot normal)
         // l = vector in the direction of the line
@@ -36,14 +17,13 @@ data class Plane @JvmOverloads constructor(override val name: String, private va
         // p0 = point on the plane
         // normal = plane normal
         val l = Vector3(a, b).normalize()
-        val p0 = point
         val denominator = l.dot(normal)
         val result = IntersectInfo()
-        result.`object` = this
+        result.obj = this
         if (denominator >= 0 && denominator < 0.01f) {
             // parallel, no intersection
         } else {
-            val p0l0 = Vector3(p0.subtract(a))
+            val p0l0 = Vector3(point.subtract(a))
             val numerator = normal.dot(p0l0)
             result.distance = numerator / denominator
             if (result.distance > 0) {

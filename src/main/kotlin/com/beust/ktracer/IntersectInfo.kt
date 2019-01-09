@@ -7,5 +7,5 @@ data class IntersectInfo(val points: ArrayList<Point> = ArrayList()) {
     var normal: Vector3? = null
     var distance: Double = 0.toDouble()
     var reflection: Vector3? = null
-    var `object`: SceneObject? = null
+    var obj: SceneObject? = null
 }

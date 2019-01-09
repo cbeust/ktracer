@@ -11,7 +11,7 @@ class PlaneTest {
                     Point(0, 0, 0))
             val p0 = Point(0, 1, 0)
             val p1 = Point(1, 0, 0)
-            val ii = plane.intersects3(p0, p1)
+            val ii = plane.intersects(p0, p1)
             val reflection = ii.reflection
             Assert.assertEquals(reflection!!.start, p1)
             Assert.assertEquals(reflection.end, Point(2, 1, 0))
@@ -46,7 +46,7 @@ class PlaneTest {
                     Point(0, 0, 1))
             val p0 = Point(50, 50, -1)
             val p1 = Point(50, 50, -2)
-            val ii = plane.intersects3(p0, p1)
+            val ii = plane.intersects(p0, p1)
             Assert.assertEquals(ii.distance, -2.0, 0.01)
         }
 

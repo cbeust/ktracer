@@ -2,7 +2,7 @@ package com.beust.ktracer
 
 class Main0 {
 
-    private val DISPLAY = Display(WIDTH, HEIGHT)
+    private val DISPLAY = Display(WIDTH, HEIGHT, 0x00008080)
 
     private fun run() {
         val png = Png(DISPLAY.width, DISPLAY.height)
