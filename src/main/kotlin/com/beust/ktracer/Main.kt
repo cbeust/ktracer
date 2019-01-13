@@ -16,17 +16,20 @@ fun main(argv: Array<String>) {
 //            ,new Sphere(new Point(300, 200, 100), 80)
     )
     val LIGHTS = listOf(
-            Point(800.0, 250.0, 100.0)
-//            new Point(0, 300, 0)
+            Point(800.0, 250.0, 100.0),
+            Point(0, 300, 0)
     )
 
 
     val scene1 = Scene(CAMERA, OBJECTS, LIGHTS)
     val scene2 = Scene(CAMERA,listOf(
             Plane("Bottom plane", Vector3(Point(0.0, 1.0, 0.0)), Point(0.0, 0.0, 0.0), -0x7f010000),
-            Sphere("Sphere 1", Point(250.0, 50.0, 100.0), 50.0)
+            Sphere("Sphere 1", Point(250.0, 50.0, 100.0), 100.0)
     ),
-            listOf(Point(100, 100, -400), Point(400, 100, -400))
+            listOf(
+                    Point(100, 200, -400),
+                    Point(400, 200, -400)
+            )
     )
     scene2.run()
 }

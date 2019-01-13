@@ -32,16 +32,17 @@ class Scene(private val camera: Point,
 
     private fun drawScene(rayPanel: RayPanel) {
         val drawShadows = true
+        val map = hashSetOf<Pair<Int, Int>>()
         for (x in 0 until display.width) {
             for (y in 0 until display.height) {
                 val p = Point(x.toDouble(), y.toDouble(), 0.0)
                 val closest = findIntersection(camera, p, objects)
 
                 var color = display.backgroundColor
+                var colorIsShadow = false
                 if (closest != null) {
                     val point = closest.points[0]
                     for (light in lights) {
-                        println("Current light: $light")
                         var inShadow = false
                         if (drawShadows) {
                             for (obj in objects) {
@@ -61,11 +62,18 @@ class Scene(private val camera: Point,
                             }
                         }
 
-                        if (inShadow) {
-                            color = -0x1000000
-                        } else {
-                            val info = closest.obj!!.getPointInfo(point, light)
-                            color = info.color
+//                        if (map.contains(Pair(x, y))) {
+//                            println("PROBLEM")
+//                        }
+                        map.add(Pair(x,y))
+                        if (! colorIsShadow) {
+                            if (inShadow) {
+                                color = -0x1000000
+                                colorIsShadow = true
+                            } else {
+                                val info = closest.obj!!.getPointInfo(point, light)
+                                color = info.color
+                            }
                         }
                     }
                 }
