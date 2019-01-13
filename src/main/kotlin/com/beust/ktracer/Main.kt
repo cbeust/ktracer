@@ -20,7 +20,15 @@ fun main(argv: Array<String>) {
 //            new Point(0, 300, 0)
     )
 
-    Scene(CAMERA, OBJECTS, LIGHTS).run()
+
+    val scene1 = Scene(CAMERA, OBJECTS, LIGHTS)
+    val scene2 = Scene(CAMERA,listOf(
+            Plane("Bottom plane", Vector3(Point(0.0, 1.0, 0.0)), Point(0.0, 0.0, 0.0), -0x7f010000),
+            Sphere("Sphere 1", Point(250.0, 50.0, 100.0), 50.0)
+    ),
+            listOf(Point(100, 100, -400), Point(400, 100, -400))
+    )
+    scene2.run()
 }
 
 
