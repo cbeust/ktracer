@@ -41,14 +41,15 @@ class Scene(private val camera: Point,
                 if (closest != null) {
                     val point = closest.points[0]
                     for (light in lights) {
+                        println("Current light: $light")
                         var inShadow = false
                         if (drawShadows) {
-                            for (`object` in objects) {
-                                if (`object` === closest.obj) {
+                            for (obj in objects) {
+                                if (obj === closest.obj) {
                                     continue
                                 }
                                 val deltaPoint = point.add(0.01)
-                                val shadowIntersection = `object`.intersects(deltaPoint, light)
+                                val shadowIntersection = obj.intersects(deltaPoint, light)
                                 val distanceToLight = Vector3(point, light).norm()
                                 if (shadowIntersection.distance >= 0 &&
                                         shadowIntersection.distance < distanceToLight &&
