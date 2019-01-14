@@ -1,12 +1,9 @@
 package com.beust.ktracer
 
-/**
- * @author Cedric Beust <cedric></cedric>@refresh.io>
- * @since 06 07, 2014
- */
-data class Plane @JvmOverloads constructor(override val name: String, private val passedNormal: Vector3,
+data class Plane (override val name: String, private val passedNormal: Vector3,
         private val point: Point,
-        private val color: Int = -0x7fffff01) : SceneObject(name) {
+        private val color1: Int = 0xff0000, private val color2: Int = 0x00ff00)
+    : SceneObject(name) {
     private val normal: Vector3 = passedNormal.normalize()
 
     override fun intersects(a: Point, b: Point): IntersectInfo {
@@ -48,7 +45,10 @@ data class Plane @JvmOverloads constructor(override val name: String, private va
 
     override fun getPointInfo(displayPoint: Point, lights: List<Point>): IntersectInfo {
         val result = IntersectInfo()
-        result.color = color
+        val SQ = 20
+        val mod1 = ((Math.abs(displayPoint.x.toInt() / SQ))
+                + Math.abs(displayPoint.y.toInt() / SQ)) % 2
+        result.color = if (mod1 == 0) color1 else color2
         return result
     }
 }

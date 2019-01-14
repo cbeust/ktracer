@@ -1,11 +1,11 @@
 package com.beust.ktracer
 
 fun main(argv: Array<String>) {
-    val CAMERA = Point(200.0, 400.0, -500.0)
+    val CAMERA = Point(200.0, 200.0, -400.0)
     val OBJECTS = listOf(
-            Plane("Bottom plane", Vector3(Point(0.0, 1.0, 0.0)), Point(0.0, 0.0, 0.0), -0x7f010000),
-            Plane("Left plane", Vector3(Point(1.0, 0.0, 0.0)), Point(0.0, 0.0, 0.0), -0x7fff0100),
-//            ,new Plane(new Vector3(new Point(0, 0, 1)), new Point(0,0,2000), 0x800000ff)
+            Plane("Bottom plane", Vector3(Point(0.0, 1.0, 0.0)), Point(0.0, 0.0, 0.0)),
+            Plane("Left plane", Vector3(Point(1.0, 0.0, 0.0)), Point(0.0, 0.0, 0.0), 0x0, 0xffffff),
+//            ,new Plane(new Vector3(new Point(0, 0, 1)), new Point(0,0,2000))
 //            new Sphere(new Point(300, 100, 100), 50),
 //            new Sphere(new Point(100, 100, 100), 50),
             Sphere("Sphere 1", Point(200.0, 50.0, 100.0), 50.0),
@@ -23,12 +23,12 @@ fun main(argv: Array<String>) {
 
     val scene1 = Scene(CAMERA, OBJECTS, LIGHTS)
     val scene2 = Scene(CAMERA,listOf(
-            Plane("Bottom plane", Vector3(Point(0.0, 1.0, 0.0)), Point(0.0, 0.0, 0.0), -0x7f010000),
-            Sphere("Sphere 1", Point(250.0, 50.0, 100.0), 50.0)
+            Plane("Bottom plane", Vector3(Point(0, 1, 0)), Point(0.0, 0.0, 0.0))
+            , Sphere("Sphere 1", Point(250.0, 250.0, 100.0), 50.0)
     ),
             listOf(
-                    Point(100, 200, -400),
-                    Point(400, 200, -400)
+                    Point(200, 400, -400),
+                    Point(300, 400, -400)
             )
     )
     scene2.run()
