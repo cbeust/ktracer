@@ -36,12 +36,13 @@ data class Sphere(override val name: String, val center: Point, val radius: Doub
         return result
     }
 
-    override fun getPointInfo(p: Point, light: Point): IntersectInfo {
+    override fun getPointInfo(p: Point, lights: List<Point>): IntersectInfo {
         val x = p.x.toInt()
         val (x1, y, z) = p.subtract(center)
         val r = Math.sqrt(x1 * x1 + y * y
                 + z * z)
 
+        val light = lights[0]
         val lightVector = Vector3(p, light).normalize()
         val normalVector = Vector3(center, p).normalize()
         var shade = lightVector.dot(normalVector)

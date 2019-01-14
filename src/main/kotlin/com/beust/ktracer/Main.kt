@@ -24,7 +24,7 @@ fun main(argv: Array<String>) {
     val scene1 = Scene(CAMERA, OBJECTS, LIGHTS)
     val scene2 = Scene(CAMERA,listOf(
             Plane("Bottom plane", Vector3(Point(0.0, 1.0, 0.0)), Point(0.0, 0.0, 0.0), -0x7f010000),
-            Sphere("Sphere 1", Point(250.0, 50.0, 100.0), 100.0)
+            Sphere("Sphere 1", Point(250.0, 50.0, 100.0), 50.0)
     ),
             listOf(
                     Point(100, 200, -400),

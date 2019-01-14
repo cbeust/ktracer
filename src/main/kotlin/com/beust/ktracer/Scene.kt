@@ -32,7 +32,6 @@ class Scene(private val camera: Point,
 
     private fun drawScene(rayPanel: RayPanel) {
         val drawShadows = true
-        val map = hashSetOf<Pair<Int, Int>>()
         for (x in 0 until display.width) {
             for (y in 0 until display.height) {
                 val p = Point(x.toDouble(), y.toDouble(), 0.0)
@@ -42,6 +41,7 @@ class Scene(private val camera: Point,
                 var colorIsShadow = false
                 if (closest != null) {
                     val point = closest.points[0]
+                    var shadowCount = 0
                     for (light in lights) {
                         var inShadow = false
                         if (drawShadows) {
@@ -55,27 +55,26 @@ class Scene(private val camera: Point,
                                 if (shadowIntersection.distance >= 0 &&
                                         shadowIntersection.distance < distanceToLight &&
                                         shadowIntersection.points.size > 0) {
-                                    inShadow = true
+                                    shadowCount++
 
                                     break
                                 }
                             }
                         }
+                    }
 
-//                        if (map.contains(Pair(x, y))) {
-//                            println("PROBLEM")
-//                        }
-                        map.add(Pair(x,y))
-                        if (! colorIsShadow) {
-                            if (inShadow) {
-                                color = -0x1000000
-                                colorIsShadow = true
-                            } else {
-                                val info = closest.obj!!.getPointInfo(point, light)
-                                color = info.color
-                            }
+                    if (! colorIsShadow) {
+                        if (shadowCount > 0) {
+                            color =
+                                    if (shadowCount == 2) 0x202020
+                                    else 0x404040
+                            colorIsShadow = true
+                        } else {
+                            val info = closest.obj!!.getPointInfo(point, lights)
+                            color = info.color
                         }
                     }
+
                 }
                 rayPanel.drawPoint(x.toDouble(), y.toDouble(), color)
             }

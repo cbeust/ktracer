@@ -46,7 +46,7 @@ data class Plane @JvmOverloads constructor(override val name: String, private va
         return Vector3(v.end, v.end.add(result))
     }
 
-    override fun getPointInfo(displayPoint: Point, light: Point): IntersectInfo {
+    override fun getPointInfo(displayPoint: Point, lights: List<Point>): IntersectInfo {
         val result = IntersectInfo()
         result.color = color
         return result
