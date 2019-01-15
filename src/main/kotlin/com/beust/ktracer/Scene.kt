@@ -84,8 +84,8 @@ class Scene(private val camera: Point,
     private fun findIntersection(p0: Point, p1: Point, objects: List<SceneObject>): IntersectInfo? {
         var result: IntersectInfo? = null
         var smallestDistance = java.lang.Double.MAX_VALUE
-        for (`object` in objects) {
-            val ii = `object`.intersects(p0, p1)
+        for (obj in objects) {
+            val ii = obj.intersects(p0, p1)
             if (ii.points.size > 0) {
                 if (result == null || ii.distance < smallestDistance) {
                     result = ii
