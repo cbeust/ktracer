@@ -1,6 +1,7 @@
 package com.beust.ktracer
 
-data class Sphere(override val name: String, val center: Point, val radius: Double) : SceneObject(name) {
+data class Sphere(override val name: String, val center: Point, val radius: Double, val color: Int = 0xff0000)
+    : SceneObject(name) {
 
     override fun intersects(p0: Point, p1: Point): IntersectInfo {
         val result = IntersectInfo()
@@ -34,6 +35,27 @@ data class Sphere(override val name: String, val center: Point, val radius: Doub
         }
 
         return result
+    }
+
+    data class Result(val intersect: Boolean, val distance: Double = 0.0, val t0: Double = 0.0, val t1: Double = 0.0)
+    fun intersect2(orig: Point, dir: Point): Result {
+        val L = center.subtract(orig)
+        val tca: Double = L.dot(dir)
+        val d2 = L.dot(L) - tca*tca
+        if (d2 > radius*radius) return Result(false)
+
+        val thc = Math.sqrt(radius*radius - d2)
+        val t0 = tca - thc
+        val t1 = tca + thc
+
+        val t = if (t0 < 0) t1 else t0
+        val result = if (t < 0) Result(false)
+            else Result(true, t, t0, t1)
+
+        return result
+//        if (t0 < 0) t0 = t1;
+//        if (t0 < 0) return false;
+//        return true;
     }
 
     override fun getPointInfo(p: Point, lights: List<Point>): IntersectInfo {

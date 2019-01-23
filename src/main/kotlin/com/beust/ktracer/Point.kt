@@ -23,6 +23,10 @@ data class Point(val x: Double, val y: Double, val z: Double) {
         return Math.sqrt(x * x + y * y + z * z)
     }
 
+    fun dot(other: Point): Double {
+        return x*other.x + y*other.y + z*other.z
+    }
+
 //    fun `is`(x: Int, y: Int): Boolean {
 //        return x == x && y == y
 //    }

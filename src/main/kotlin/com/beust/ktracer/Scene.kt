@@ -3,6 +3,8 @@ package com.beust.ktracer
 import javax.swing.JFrame
 import javax.swing.SwingUtilities
 
+
+
 class Scene(private val camera: Point,
         private val objects: List<SceneObject>,
         private val lights: List<Point>,
@@ -15,7 +17,7 @@ class Scene(private val camera: Point,
 
         SwingUtilities.invokeLater {
             val rp = RayPanel(display.width, display.height)
-            drawScene(rp)
+            drawScene2(rp)
             with(JFrame("Cedric's ray tracer")) {
                 contentPane = rp
                 defaultCloseOperation = JFrame.EXIT_ON_CLOSE
@@ -28,6 +30,34 @@ class Scene(private val camera: Point,
         //        RayPanel png = new RayPanel();
         //        Png png = new Png(DISPLAY.getWidth(), DISPLAY.getHeight());
         //        png.display();
+    }
+
+    private fun drawScene2(rayPanel: RayPanel) {
+        val fov = Math.PI/2.0
+        val tanFov = Math.tan(fov / 2.0)
+        val height = display.height
+        val width = display.width
+
+        rayPanel.start()
+        for (j in 0..height) {
+            for (i in 0..width) {
+                var distance = Double.MAX_VALUE
+                var color = 0x808080
+                for (obj in objects) {
+                    val x: Double = (2 * (i + 0.5) / width - 1) * tanFov * width / height
+                    val y: Double = -(2 * (j + 0.5) / height - 1) * tanFov
+                    val dir: Vector3 = Vector3(Point(x, y, -1.0)).normalize()
+                    val sphere = obj as Sphere
+                    val r = sphere.intersect2(camera, dir.end)
+                    if (r.intersect && r.distance < distance) {
+                        distance = r.distance
+                        color = sphere.color
+                    }
+                }
+                rayPanel.drawPoint(i, height - j, color)
+            }
+        }
+        rayPanel.done()
     }
 
     private fun drawScene(rayPanel: RayPanel) {
@@ -76,7 +106,7 @@ class Scene(private val camera: Point,
                     }
 
                 }
-                rayPanel.drawPoint(x.toDouble(), y.toDouble(), color)
+                rayPanel.drawPoint(x, y, color)
             }
         }
     }

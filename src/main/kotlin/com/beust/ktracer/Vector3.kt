@@ -42,4 +42,5 @@ open class Vector3(val start: Point, val end: Point) {
         return x * x1 + y * y1 + z * z1
     }
 
+    override fun toString() = "{Vector3: $start - $end}"
 }
