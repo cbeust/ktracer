@@ -4,7 +4,7 @@ fun main(argv: Array<String>) {
     val CAMERA = Point(300.0, 300.0, -50000.0)
     val OBJECTS = listOf(
             Plane("Bottom plane", Vector3(Point(0.0, 1.0, 0.0)), Point(0.0, 0.0, 0.0)),
-            Plane("Left plane", Vector3(Point(1.0, 0.0, 0.0)), Point(0.0, 0.0, 0.0), 0x0, 0xffffff),
+            Plane("Left plane", Vector3(Point(1.0, 0.0, 0.0)), Point(0.0, 0.0, 0.0), Color.BLACK, Color.WHITE),
 //            ,new Plane(new Vector3(new Point(0, 0, 1)), new Point(0,0,2000))
 //            new Sphere(new Point(300, 100, 100), 50),
 //            new Sphere(new Point(100, 100, 100), 50),
@@ -16,8 +16,8 @@ fun main(argv: Array<String>) {
 //            ,new Sphere(new Point(300, 200, 100), 80)
     )
     val LIGHTS = listOf(
-            Point(800.0, 250.0, 100.0),
-            Point(0, 300, 0)
+            Light(800, 250, 100),
+            Light(0, 300, 0)
     )
 
 
@@ -28,27 +28,28 @@ fun main(argv: Array<String>) {
             , Sphere("Sphere 2", Point(50.0, 200.0, 200.0), 50.0)
     ),
             listOf(
-                    Point(600, 400, 200),
-                    Point(300, 400, -400)
+                    Light(600, 400, 200),
+                    Light(300, 400, -400)
             )
     )
-    val scene3 = Scene(camera = Point(0, 0, 10),
+    val scene3 = Scene(camera = Point(0, 0, 0),
             objects = listOf(
-                    Sphere("Sphere 1", Point(-3,    0,   -16), 2.0)
-                    ,
-                    Sphere("Sphere 2", Point(-1.0, -1.5, -12.0), 2.0, 0x0000ff),
-                    Sphere("Sphere 3", Point(1.5, -0.5, -18.0), 3.0, 0x00ff00),
-                    Sphere("Sphere 4", Point(7,    5,   -18), 4.0, 0xffff80)
+                    Sphere("Sphere 4", Point(7,    5,   -18), 4.0, Color(0xffff80))
             ),
-            lights = listOf(Point(500, 250, 0)))
+            lights = listOf(Light(500, 250, 0)))
 
     val scene4 = Scene(camera = Point(0, 0, 0),
             objects = listOf(
-                    Sphere("Sphere 4", Point(7,    5,   -18), 4.0, 0xffff80)
+                    Sphere("Sphere 1", Point(-3,    0,   -16), 2.0, Color(0x0000ff))
+                    ,
+                    Sphere("Sphere 2", Point(-1.0, -1.5, -12.0), 2.0, Color(0xff0000)),
+                    Sphere("Sphere 3", Point(1.5, -0.5, -18.0), 3.0, Color(0x00ff00)),
+                    Sphere("Sphere 4", Point(7,    5,   -18), 4.0, Color((0x406080)))
+//                    ,Plane("Plane y=-4", Vector3(Point(0, 1, 0)), Point(0, -4, 0))
             ),
-            lights = listOf(Point(500, 250, 0)))
+            lights = listOf(Light(20, 20, 0)))
 
-    scene3.run()
+    scene4.run()
 }
 
 

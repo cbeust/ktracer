@@ -1,6 +1,5 @@
 package com.beust.ktracer
 
-import java.awt.Color
 import java.awt.Dimension
 import java.awt.Graphics
 import javax.swing.JFrame
@@ -12,7 +11,7 @@ class RayPanel(width: Int, private val thisHeight: Int) : JPanel() {
     private val points = ArrayList<P>()
     private val rectangles = arrayListOf<List<Int>>()
 
-    internal inner class P(var x: Int, var y: Int, var color: Int)
+    internal inner class P(var x: Int, var y: Int, var color: Color)
 
     init {
         preferredSize = Dimension(width, thisHeight)
@@ -23,19 +22,19 @@ class RayPanel(width: Int, private val thisHeight: Int) : JPanel() {
         //       setBackground(Color.LIGHT_GRAY);
 
         for (p in points) {
-            g.color = Color(p.color)
+            g.color = p.color.toAwtColor()
             g.drawRect(p.x, thisHeight - 1 - p.y.toInt(), 1, 1)
         }
         points.clear()
 
         for (r in rectangles) {
-            g.color = Color.RED
+            g.color = java.awt.Color.red
             g.fillRect(r[0], r[1], r[2], r[3])
         }
         rectangles.clear()
     }
 
-    fun drawPoint(x: Int, y: Int, color: Int) {
+    fun drawPoint(x: Int, y: Int, color: Color) {
         SwingUtilities.invokeLater {
             points.add(P(x, y, color))
         }
@@ -68,7 +67,7 @@ class RayPanel(width: Int, private val thisHeight: Int) : JPanel() {
             SwingUtilities.invokeLater {
                 val frame = JFrame("Cedric's ktracer tracer")
                 val rp = RayPanel(500, 500)
-                rp.drawPoint(100, 100, 0x0000ff)
+                rp.drawPoint(100, 100, Color(0, 0, 0xff))
                 frame.contentPane = rp
                 frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
                 frame.pack()             // "this" JFrame packs its components

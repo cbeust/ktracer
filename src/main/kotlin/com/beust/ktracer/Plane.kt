@@ -2,7 +2,8 @@ package com.beust.ktracer
 
 data class Plane (override val name: String, private val passedNormal: Vector3,
         private val point: Point,
-        private val color1: Int = 0xff0000, private val color2: Int = 0x00ff00)
+        private val color1: Color = Color(0xff, 0, 0),
+        private val color2: Color = Color(0x00, 0xff, 0))
     : SceneObject(name) {
     private val normal: Vector3 = passedNormal.normalize()
 
@@ -15,11 +16,12 @@ data class Plane (override val name: String, private val passedNormal: Vector3,
         // normal = plane normal
         val l = Vector3(a, b).normalize()
         val denominator = l.dot(normal)
-        val result = IntersectInfo()
+        val result = IntersectInfo(color = color1)
         result.obj = this
         if (denominator >= 0 && denominator < 0.01f) {
             // parallel, no intersection
         } else {
+            result.intersect = true
             val p0l0 = Vector3(point.subtract(a))
             val numerator = normal.dot(p0l0)
             result.distance = numerator / denominator
@@ -29,7 +31,7 @@ data class Plane (override val name: String, private val passedNormal: Vector3,
             }
         }
 
-        result.reflection = calculateReflection(Vector3(a, b))
+//        result.reflection = calculateReflection(Vector3(a, b))
 
         return result
     }
@@ -44,11 +46,10 @@ data class Plane (override val name: String, private val passedNormal: Vector3,
     }
 
     override fun getPointInfo(displayPoint: Point, lights: List<Point>): IntersectInfo {
-        val result = IntersectInfo()
         val SQ = 20
         val mod1 = ((Math.abs(displayPoint.x.toInt() / SQ))
                 + Math.abs(displayPoint.y.toInt() / SQ)) % 2
-        result.color = if (mod1 == 0) color1 else color2
+        val result = IntersectInfo(color = if (mod1 == 0) color1 else color2)
         return result
     }
 }

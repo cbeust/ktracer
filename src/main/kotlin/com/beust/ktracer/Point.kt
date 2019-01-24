@@ -15,6 +15,8 @@ data class Point(val x: Double, val y: Double, val z: Double) {
         return Point(x + other.x, y + other.y, z + other.z)
     }
 
+    fun mult(n: Double) = Point(x*n, y*z, z*n)
+
     fun subtract(p0: Point): Point {
         return Point(x - p0.x, y - p0.y, z - p0.z)
     }
@@ -33,6 +35,11 @@ data class Point(val x: Double, val y: Double, val z: Double) {
 
     operator fun minus(end: Point): Point {
         return Point(end.x - x, end.y - y, end.z - z)
+    }
+
+    fun normalize(): Point {
+        val length = norm()
+        return Point(x / length, y / length, z / length)
     }
 }
 
